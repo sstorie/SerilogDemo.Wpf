@@ -18,3 +18,25 @@ The last line shows a case where we've pushed a value into the context, but is l
 	2015-09-15 09:02:20.039 -05:00|Level:Debug|ThreadId:13|ContextValue:3|SourceContext:SerilogDemo.Wpf.MainWindow|Message:on login background thread... - context value should be 3
 	2015-09-15 09:02:22.040 -05:00|Level:Debug|ThreadId:13|ContextValue:4|SourceContext:SerilogDemo.Wpf.MainWindow|Message:SimulateLogin end - context value should be 4
 	2015-09-15 09:02:22.042 -05:00|Level:Debug|ThreadId:10|ContextValue:2|SourceContext:SerilogDemo.Wpf.MainWindow|Message:after logging user in - context value should be 4 (but is 2!)
+
+### Possible solution
+One way to work around this is to not push properties inside the async method, but instead return them to the caller and push them there. In this example, we could update the `loginButton_Click(...)` method to look like this:
+
+```c#
+        void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+            int returnValue = 0;
+
+            _logger.Debug("Before logging user in - context value should be 2");
+
+            Task.Run(async () => returnValue = await SimulateLogin()).Wait();
+
+            _logger.Debug("after logging user in - context value should be 4 (but is 2!)");
+
+            LogContext.PushProperty("ContextValue", returnValue);
+            _logger.Debug("after pushing return value - context value should be 4");
+
+        }
+```
+
+With this simple change the LogContext works closer to what is expected. As long as you don't have many properties that need to be set this should work fine. If you need to set several different values, then you'll need some object to return them back to the caller in...which could get messy.
