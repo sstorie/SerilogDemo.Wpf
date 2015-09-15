@@ -20,12 +20,11 @@ namespace SerilogDemo.Wpf
 
         void OnApplicationStartup(object sender, StartupEventArgs se)
         {
-            string outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}|Level:{Level}|Guid:{Guid}|ThreadId:{ThreadId}|ContextValue:{ContextValue}|SourceContext:{SourceContext}|Message:{Message}{NewLine}{Exception}";
+            string outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz}|Level:{Level}|ThreadId:{ThreadId}|ContextValue:{ContextValue}|SourceContext:{SourceContext}|Message:{Message}{NewLine}{Exception}";
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.WithThreadId()
-                .Enrich.WithProperty("Guid", Guid.NewGuid())
                 .Enrich.FromLogContext()
                 .WriteTo.Trace(
                     outputTemplate: outputTemplate

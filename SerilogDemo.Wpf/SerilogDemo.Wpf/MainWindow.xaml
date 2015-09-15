@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SerilogDemo.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="71.831" Width="294.014">
+        Title="MainWindow" Height="79.577" Width="301.056">
     <Grid>
-        <Button x:Name="button" Content="Log user in" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="126" Click="button_Click"/>
-        <Button x:Name="button1" Content="Generate Log Event" HorizontalAlignment="Left" Margin="153,10,0,0" VerticalAlignment="Top" Width="121" Click="button1_Click"/>
+        <Button x:Name="loginButton" Content="Log user in" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="126" Click="loginButton_Click"/>
+        <Button x:Name="logEventButton" Content="Generate Log Event" HorizontalAlignment="Left" Margin="153,10,0,0" VerticalAlignment="Top" Width="121" Click="logEventButton_Click"/>
 
     </Grid>
 </Window>
