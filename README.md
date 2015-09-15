@@ -6,7 +6,7 @@ This application uses Autofac to inject the logger into the MainWindow class, wh
 ### Issue #1 - Using LogContext.PushProperty with async/await
 One issue encountered is the values pushed into the LogContext property after an async call returns are lost when the method completes. From the documentation it's clear you can push values into the context, and they'll persist even if that thread is interrupted using async/await. However, if you push a value *after* a task is await'd, that value will not persist back to the calling thread.
 
-For example, if we look at the code in [MainWindow.xaml.cs](https://github.com/sstorie/SerilogDemo.Wpf/blob/develop/SerilogDemo.Wpf/SerilogDemo.Wpf/MainWindow.xaml.cs) we see it simulates an async login process where we may want to set the value of an employee ID after the login is successful. However, we can see that the context value is passed into threads created with async/await, but is lost when set after an await happens.
+For example, if we look at the code in [MainWindow.xaml.cs](https://github.com/sstorie/SerilogDemo.Wpf/blob/develop/SerilogDemo.Wpf/MainWindow.xaml.cs) we see it simulates an async login process where we may want to set the value of an employee ID after the login is successful. However, we can see that the context value is passed into threads created with async/await, but is lost when set after an await happens.
 
 The last line shows a case where we've pushed a value into the context, but is lost because it was not on the original thread. Specifically, setting the *ContextValue* to 4 on thread ID 13 is lost when control returns back to thread ID 10.
 
